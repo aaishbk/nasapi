@@ -1,4 +1,3 @@
-from msilib.text import tables
 from dotenv import load_dotenv
 import streamlit as st
 import psycopg2
