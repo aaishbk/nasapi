@@ -29,16 +29,16 @@ def main():
  
     #APOD Data Tab
     if 'index' not in st.session_state:
-        st.session_state.index = 0  # initialize index
+        st.session_state.index = 0  
 
     if not df.empty:
         # Buttons for navigation
-        cols = st.columns([2, 7, 1])  # Adjusting column widths for better alignment
+        cols = st.columns([2, 7, 1])  
         with cols[0]:
             if st.button("Previous"):
                 if st.session_state.index > 0:
                     st.session_state.index -= 1
-        with cols[2]:  # This is the third column, which now contains the "Next" button
+        with cols[2]: 
             if st.button("Next"):
                 if st.session_state.index < len(df) - 1:
                     st.session_state.index += 1
