@@ -5,14 +5,9 @@ import psycopg2
 from dotenv import load_dotenv
 
 dotenv_path = 'C:\\Users\\User\\NASAAPI\\NASAPI.env'
-load_dotenv()
 
-db_name = os.getenv('DB_NAME')
-db_user = os.getenv('DB_USER')
-db_password = os.getenv('DB_PASSWORD')
-db_host = os.getenv('DB_HOST')
-db_port = os.getenv('DB_PORT')
-api_key = os.getenv('API_KEY')
+# Load environment variables from the specified path
+load_dotenv(dotenv_path)
 
 # Function for SQL Database Connection
 def get_db_connection():
