@@ -28,7 +28,7 @@ def fetch_data(api_key, endpoint):
     else:
         return None
     
-# Function for inserting APOD data from API into SQL APOD Database
+# Function for inserting Astronomy Picture of the Day data from API into SQL APOD Database
 def insert_apod_data(data, conn):
     cursor =  conn.cursor()
     cursor.execute("""
@@ -48,14 +48,50 @@ def insert_apod_data(data, conn):
     conn.commit()
     cursor.close()
 
+# Function for inserting DONKI Solar Flare data from API into SQL DSF Database
+def insert_dsf_data(data, conn):
+    cursor = conn.cursor()
+    for event in data:  
+        cursor.execute("""
+            INSERT INTO ab_nasapi_dsf (flr_id, begin_time, peak_time, end_time, class_type, source_location, active_region_num, note, submission_time, link)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            ON CONFLICT (flr_id) DO UPDATE SET 
+            begin_time = EXCLUDED.begin_time,
+            peak_time = EXCLUDED.peak_time,
+            end_time = EXCLUDED.end_time,
+            class_type = EXCLUDED.class_type,
+            source_location = EXCLUDED.source_location,
+            active_region_num = EXCLUDED.active_region_num,
+            note = EXCLUDED.note,
+            submission_time = EXCLUDED.submission_time,
+            link = EXCLUDED.link;
+        """, (event['flrID'],
+              event['beginTime'],
+              event['peakTime'],
+              event['endTime'],
+              event['classType'],
+              event['sourceLocation'],
+              event['activeRegionNum'],
+              event['note'],
+              event['submissionTime'],
+              event['link']))
+        conn.commit()
+    cursor.close()
+
+
 #Main
 if __name__ == "__main__":
-    api_key = 'b8dkKZ9Fcyhcl25Ekhmf1vzUEOuvGLg3FdkNerSJ'
+    api_key = os.getenv('API_KEY')
     conn = get_db_connection()
     
     # Fetch & insert APOD data
     apod_data = fetch_data(api_key, 'planetary/apod') #Endpoint
     if apod_data:
         insert_apod_data(apod_data,conn)
+        
+    # Fetch & insert DSF data
+    dsf_data = fetch_data(api_key, 'DONKI/FLR') #Endpoint
+    if dsf_data:
+        insert_dsf_data(dsf_data, conn)
 
     conn.close()
