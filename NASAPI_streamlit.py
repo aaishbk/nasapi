@@ -10,10 +10,10 @@ load_dotenv(dotenv_path)
 # Function to get APOD Data
 def get_apod_data():
     conn = psycopg2.connect(
-        dbname = os.getenv('db_name'),
-        user = os.getenv('db_user'),
-        password = os.getenv('db_password'),
-        host = os.getenv('db_host'),
+        dbname=os.getenv('DB_NAME'),
+        user=os.getenv('DB_USER'),
+        password=os.getenv('DB_PASSWORD'),
+        host=os.getenv('DB_HOST'),
         port=os.getenv('DB_PORT')
     )
     query = "SELECT * FROM ab_nasapi_apod ORDER BY date"
@@ -31,13 +31,13 @@ def main():
         st.session_state.index = 0  
 
     if not df.empty:
-        # Buttons for navigation
-        cols = st.columns([2, 7, 1])  
+ 
+        cols = st.columns([2, 7, 1]) 
         with cols[0]:
             if st.button("Previous"):
                 if st.session_state.index > 0:
                     st.session_state.index -= 1
-        with cols[2]: 
+        with cols[2]:  
             if st.button("Next"):
                 if st.session_state.index < len(df) - 1:
                     st.session_state.index += 1
