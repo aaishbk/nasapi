@@ -80,6 +80,7 @@ def main():
             st.write(f"**Start Time:** {most_recent_flare['begin_time']}")
             st.write(f"**Peak Time:** {most_recent_flare['peak_time']}")
             st.write(f"**End Time:** {most_recent_flare['end_time']}")
+            st.write(f"**Note:** {most_recent_flare['note']}")
             st.write(f"**Source Location:** {most_recent_flare['source_location']}")
             
             # Plotting the data
