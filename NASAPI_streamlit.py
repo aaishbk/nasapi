@@ -74,7 +74,7 @@ def main():
         if not df_solar.empty:
             # Displaying information on most recent flare
             st.header(f"**Total Solar Flares Recorded:** {len(df_solar)}")
-            most_recent_flare = df_solar.iloc[0]
+            most_recent_flare = df_solar.iloc[2]
             st.subheader(f"**Most Recent Flare Details:**")
             st.write(f"**Class Type:** {most_recent_flare['class_type']}")
             st.write(f"**Start Time:** {most_recent_flare['begin_time']}")
